@@ -19,22 +19,7 @@ provider "azurerm" {
     cost_center = "contoso research"
   }
 }*/
-variable "prefix" {
-  
-}
-variable "region" {
-  type = string
-  default = "North Europe"
-  description = "The Azure region to deploy resources"
-  validation {
-    condition = contains(["UK South", "UK West", "North Europe", "West Europe", "East US", "West US"],var.region)
-    error_message = "Invalid region"
-  }
-}
-variable "tags" {
-  type = map( any )
 
-}
 resource "azurerm_resource_group" "contoso_rg" {
   name     = "${var.prefix}_rg"
   location = var.region
