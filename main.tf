@@ -1,14 +1,17 @@
-resource "azurerm_resource_group" "RG" {
-  name = "rg01"
-  location = "eastus2"
-  lifecycle {
-    prevent_destroy = true
-  }
+module "ResourceGroup" {
+  source = "./Modules/ResourceGroup"
+  resource_group_location = var.resourcegroup_location
+  resource_group_name = var.resourcegroup
 }
 
 module "storage" {
   source = "./Modules/Storage"
-
+  location = var.resourcegroup_location
+  resource_group_name = var.resourcegroup
+  storageaccount_replication = var.storagaccountreplication
+  storageaccounttier = var.storageaccounttier
+  storagecontainername = var.storagecontainer
+  containeraccesstype = var.storagecontaineraccess
 }
 
 output "naaccessme" {

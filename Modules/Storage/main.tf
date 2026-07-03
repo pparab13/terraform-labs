@@ -4,13 +4,20 @@ resource "random_string" "storage_suffix" {
   special = false
   numeric = true
 }
-resource "azurerm_storage_account" "storageaccount" {
-  name = "storage${random_string.storage_suffix.result}"
-  resource_group_name = "rg01"
-  account_replication_type = "LRS"
-  account_tier = "Standard"
-  location = "eastus2"
-  lifecycle {
+resource "azurerm_storage_account" "storage" {
+  name                     = "storage${random_string.storage_suffix.result}"
+  resource_group_name      = var.resource_group_name
+  location                 = var.location
+  account_tier             = var.storageaccounttier
+  account_replication_type =var.storageaccount_replication
+  depends_on = [ var.resource_group_name ]
+}
+ /* lifecycle {
     prevent_destroy = true
-  }
+  }*/
+resource "azurerm_storage_container" "Container" {
+  name = var.storagecontainername
+  container_access_type = var.containeraccesstype
+  storage_account_id = azurerm_storage_account.storage.id
+
 }
