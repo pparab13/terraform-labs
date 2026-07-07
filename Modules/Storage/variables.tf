@@ -18,3 +18,7 @@ variable "storagecontainername" {
 variable "containeraccesstype" {
   type = string
 }
+
+variable "tag" {
+  type = map(string)
+}
